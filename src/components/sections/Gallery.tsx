@@ -16,7 +16,7 @@ export default function Gallery() {
           {site.creations.items.map((item) => (
             <article
               key={item.title}
-              className="group overflow-hidden rounded-3xl bg-white/35 ring-1 ring-cocoa/10 backdrop-blur shadow-soft"
+              className="group overflow-hidden card"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
                 <img

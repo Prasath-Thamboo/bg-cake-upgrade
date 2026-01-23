@@ -1,2 +1,17 @@
 @import "tailwindcss";
 
+@layer components {
+  .card {
+    @apply rounded-3xl bg-white/35 backdrop-blur;
+    box-shadow:
+      0 20px 60px -25px rgba(0,0,0,0.35),
+      inset 0 0 0 1px rgba(214,183,122,0.55);
+  }
+
+  .card-strong {
+    @apply rounded-3xl bg-white/45 backdrop-blur;
+    box-shadow:
+      0 28px 80px -35px rgba(0,0,0,0.40),
+      inset 0 0 0 1px rgba(214,183,122,0.70);
+  }
+}

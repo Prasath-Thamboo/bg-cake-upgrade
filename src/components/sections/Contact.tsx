@@ -7,7 +7,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-16">
       <Container>
-        <div className="rounded-3xl bg-white/35 ring-1 ring-cocoa/10 backdrop-blur shadow-soft p-8 md:p-10">
+        <div className="card p-8 md:p-10">
           <SectionHeader
             badge={site.contact.badge}
             title={site.contact.title}

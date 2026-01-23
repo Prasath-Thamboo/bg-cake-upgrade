@@ -18,7 +18,7 @@ export default function Reviews() {
           {site.reviews.items.map((r) => (
             <article
               key={r.author}
-              className="overflow-hidden rounded-3xl bg-white/35 ring-1 ring-cocoa/10 backdrop-blur shadow-soft"
+              className="overflow-hidden card"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img

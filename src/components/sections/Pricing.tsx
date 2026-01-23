@@ -19,7 +19,7 @@ export default function Pricing() {
             <article
               key={p.name}
               className={[
-                "relative overflow-hidden rounded-3xl bg-white/35 ring-1 ring-cocoa/10 backdrop-blur shadow-soft p-6",
+                "relative overflow-hidden card p-6",
                 p.featured ? "ring-2 ring-cocoa/20" : "",
               ].join(" ")}
             >

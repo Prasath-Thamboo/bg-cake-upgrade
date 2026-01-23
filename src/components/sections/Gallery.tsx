@@ -1,71 +1,47 @@
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { site } from "@/content/site";
+import Container from "@/components/ui/Container";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 export default function Gallery() {
   return (
-    <section id="qualite" className="destinations">
-      <h1 className="title">Explorez nos gâteaux</h1>
+    <section id="creations" className="py-16">
+      <Container>
+        <SectionHeader
+          badge={site.creations.badge}
+          title={site.creations.title}
+          desc={site.creations.desc}
+        />
 
-      <div className="desc-button">
-        <p className="small desc">
-          Voici tous nos gateaux d&apos;une qualité et d&apos;une beauté incomparable
-        </p>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {site.creations.items.map((item) => (
+            <article
+              key={item.title}
+              className="group overflow-hidden rounded-3xl bg-white/35 ring-1 ring-cocoa/10 backdrop-blur shadow-soft"
+            >
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+                <div className="absolute left-4 top-4 rounded-full bg-white/55 px-3 py-1 text-xs font-semibold text-cocoa ring-1 ring-cocoa/10 backdrop-blur">
+                  {item.tag}
+                </div>
+              </div>
 
-        <div className="buttons">
-          <button type="button" aria-label="Précédent">
-            <FaChevronLeft />
-          </button>
-          <button type="button" className="second" aria-label="Suivant">
-            <FaChevronRight />
-          </button>
+              <div className="p-5">
+                <h3 className="text-base font-extrabold">{item.title}</h3>
+                <p className="mt-2 text-sm text-cocoa/80">{item.desc}</p>
+
+                <div className="mt-4 h-px w-full bg-cocoa/10" />
+                <div className="mt-4 text-xs text-cocoa/60">
+                  Photos et finitions selon disponibilité & saison
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
-      </div>
-
-      <div className="gallerie">
-        <div className="image">
-          <img
-            src="/image/passion.jpg"
-            alt="Gateau coco fruit de la passion"
-            style={{ backgroundColor: "white" }}
-          />
-          <div className="description">
-            <h1>Gateau coco fruit de la passion</h1>
-            <p>Crème de noix de coco, coulis de fruit de la passion</p>
-          </div>
-        </div>
-
-        <div className="image">
-          <img
-            src="/image/fram.jpg"
-            alt="Gateau framboise chocolat blanc"
-          />
-          <div className="description">
-            <h1>Gateau Framboise chocolat blanc</h1>
-            <p>Crème de chocolat blanc, coulis de framboise</p>
-          </div>
-        </div>
-
-        <div className="image">
-          <img
-            src="/image/vanille.jpg"
-            alt="Gateau vanille"
-          />
-          <div className="description">
-            <h1>Gateau Vanille</h1>
-            <p>Crème de vanille, noix de pécan</p>
-          </div>
-        </div>
-
-        <div className="image">
-          <img
-            src="/image/chocolat.jpg"
-            alt="Gateau chocolat"
-          />
-          <div className="description">
-            <h1>Gateau Chocolat</h1>
-            <p>Ganache chocolat, crème de chocolat</p>
-          </div>
-        </div>
-      </div>
+      </Container>
     </section>
   );
 }

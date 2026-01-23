@@ -1,83 +1,49 @@
 import { FaStar } from "react-icons/fa";
+import Container from "@/components/ui/Container";
+import SectionHeader from "@/components/ui/SectionHeader";
+import { site } from "@/content/site";
 
 export default function Reviews() {
   return (
-    <section id="clients" className="best-trip">
-      <h1 className="title">Explore nos engagements</h1>
-      <p className="small desc">
-        Nous nous engageons à utiliser des produits de qualité
-      </p>
+    <section id="avis" className="py-16">
+      <Container>
+        <SectionHeader
+          badge={site.reviews.badge}
+          title={site.reviews.title}
+          desc={site.reviews.desc}
+          align="center"
+        />
 
-      <div className="box-list">
-        <div className="box">
-          <img
-            src="/image/22.png"
-            alt="Avis client Virginie"
-          />
-          <div className="description">
-            <h2>
-              Berentha a fait un super gâteau pour l&apos;anniversaire de mon fils
-            </h2>
-            <p className="rating">
-              <FaStar /> 4.9
-            </p>
-            <div className="button-description">
-              <span>
-                de <strong>Virginie</strong>
-              </span>
-              <button type="button">Regardez ici</button>
-            </div>
-          </div>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {site.reviews.items.map((r) => (
+            <article
+              key={r.author}
+              className="overflow-hidden rounded-3xl bg-white/35 ring-1 ring-cocoa/10 backdrop-blur shadow-soft"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={r.img}
+                  alt={`Avis client ${r.author}`}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-700 hover:scale-105"
+                />
+              </div>
+
+              <div className="p-5">
+                <p className="text-sm font-medium text-cocoa/95">{r.text}</p>
+
+                <div className="mt-3 flex items-center justify-between">
+                  <p className="flex items-center gap-2 text-sm font-extrabold text-cocoa">
+                    <FaStar className="text-sand" /> {r.rating.toFixed(1)}
+                  </p>
+                  <span className="text-xs text-cocoa/70">
+                    {r.author}
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
-
-        <div className="box">
-          <img
-            src="/image/23.png"
-            alt="Avis client Elodie"
-          />
-          <div className="description">
-            <h2>
-              J&apos;ai adoré le gâteau aux framboises et au chocolat blanc
-            </h2>
-            <p className="rating">
-              <FaStar /> 4.8
-            </p>
-            <div className="button-description">
-              <span>
-                de <strong>Elodie</strong>
-              </span>
-              <button type="button">Regardez ici</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="box">
-          <img
-            src="/image/24.png"
-            alt="Avis client Narasihma Reddy"
-          />
-          <div className="description">
-            <h2>
-              Un gâteau de haute qualité et hyper beau ! Bravo Berentha
-            </h2>
-            <p className="rating">
-              <FaStar /> 5.0
-            </p>
-            <div className="button-description">
-              <span>
-                de <strong>Narasihma Reddy</strong>
-              </span>
-              <button type="button">Regardez ici</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="view-all">
-        <button className="btn" type="button">
-          View All
-        </button>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -144,7 +144,7 @@ export const site = {
       "Conseil taille & parts",
       "Design sur-mesure (option)",
     ],
-    buttonPrimary: "Demander un devis",
+    buttonPrimary: "Demander un devis par mail",
     buttonSecondary: "Voir Instagram",
   },
 

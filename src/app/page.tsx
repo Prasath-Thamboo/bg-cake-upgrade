@@ -3,7 +3,7 @@ import Hero from "@/components/sections/Hero";
 import Gallery from "@/components/sections/Gallery";
 import Pricing from "@/components/sections/Pricing";
 import Reviews from "@/components/sections/Reviews";
-import CakeBuilder from "@/components/sections/CakeBuilder";
+import Composer from "@/components/sections/Composer";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/layout/Footer";
 
@@ -11,10 +11,10 @@ export default function Page() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-16">
+      <main className="min-h-screen">
         <Hero />
         <Gallery />
-        <CakeBuilder />
+        <Composer />
         <Pricing />
         <Reviews />
         <Contact />

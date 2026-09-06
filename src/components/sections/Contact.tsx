@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Container from "@/components/ui/Container";
@@ -49,6 +50,7 @@ export default function Contact() {
       eventDate: "",
       servings: "",
       message: "",
+      consent: false,
       company: "",
     },
   });
@@ -219,6 +221,30 @@ export default function Contact() {
                       </div>
                     ) : null}
 
+                    <label className="flex items-start gap-3 text-xs leading-5 text-cocoa/70">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border-cocoa/30 accent-gold"
+                        {...register("consent")}
+                      />
+                      <span>
+                        J&apos;accepte que mes informations soient utilisées pour
+                        traiter ma demande. Elles ne servent qu&apos;à cela — voir la{" "}
+                        <Link
+                          href="/confidentialite"
+                          className="font-semibold text-gold underline underline-offset-2"
+                        >
+                          politique de confidentialité
+                        </Link>
+                        .
+                      </span>
+                    </label>
+                    {errors.consent ? (
+                      <span className="block text-xs text-berry">
+                        {errors.consent.message}
+                      </span>
+                    ) : null}
+
                     <Button
                       type="submit"
                       size="lg"
@@ -227,10 +253,6 @@ export default function Contact() {
                     >
                       {isSubmitting ? "Envoi…" : "Envoyer ma demande"}
                     </Button>
-
-                    <p className="text-xs text-cocoa/55">
-                      Vos informations servent uniquement à traiter votre demande.
-                    </p>
                   </form>
                 )}
               </div>

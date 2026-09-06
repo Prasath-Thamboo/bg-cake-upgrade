@@ -1,7 +1,10 @@
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { site } from "@/content/site";
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="mt-10 border-t border-cocoa/10 bg-white/25 backdrop-blur">
       <Container className="py-10">
@@ -11,15 +14,21 @@ export default function Footer() {
             <div className="text-xs text-cocoa/70">{site.tagline}</div>
           </div>
 
-          <a
-            href={site.footer.termsHref}
-            className="text-xs font-semibold text-cocoa/70 underline-offset-4 hover:underline"
-          >
-            {site.footer.termsLabel}
-          </a>
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            {site.footer.legalLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-xs font-semibold text-cocoa/70 underline-offset-4 hover:underline"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
 
           <div className="text-xs text-cocoa/70">
-            {site.footer.rights} • <span className="text-cocoa">{site.footer.copyright}</span>
+            © {year} <span className="text-cocoa">{site.brand}</span> •{" "}
+            {site.footer.rights}
           </div>
         </div>
       </Container>

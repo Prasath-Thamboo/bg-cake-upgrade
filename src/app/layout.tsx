@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Spectral, Hanken_Grotesk } from "next/font/google";
 import SmoothScroll from "@/components/motion/SmoothScroll";
+import { site } from "@/content/site";
+import { SITE_URL } from "@/lib/site-url";
 
 /* Serif d'affichage — porte l'identité premium (titres, chiffres-clés) */
 const spectral = Spectral({
@@ -20,14 +22,47 @@ const hanken = Hanken_Grotesk({
   display: "swap",
 });
 
+const description =
+  "Gâteaux artisanaux premium, conçus sur-mesure pour vos événements les plus importants.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "BG-Cake — Layer cakes haut de gamme",
     template: "%s · BG-Cake",
   },
-  description:
-    "Gâteaux artisanaux premium, conçus sur-mesure pour vos événements les plus importants.",
-  icons: { icon: "/image/logo.png" },
+  description,
+  applicationName: site.brand,
+  keywords: [
+    "gâteau anniversaire",
+    "layer cake",
+    "cake design",
+    "gâteau sur-mesure",
+    "pâtisserie premium",
+    "BG-Cake",
+  ],
+  authors: [{ name: site.brand }],
+  creator: site.brand,
+  icons: { icon: "/image/logo.png", apple: "/image/logo.png" },
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/",
+    siteName: site.brand,
+    title: "BG-Cake — Layer cakes haut de gamme",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BG-Cake — Layer cakes haut de gamme",
+    description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

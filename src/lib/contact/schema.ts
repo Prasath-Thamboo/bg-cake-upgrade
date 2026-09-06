@@ -16,6 +16,11 @@ export const contactSchema = z.object({
     .trim()
     .min(10, "Donnez-nous quelques détails (10 caractères min).")
     .max(4000, "Message trop long."),
+  /** Consentement RGPD — la case doit être cochée. */
+  consent: z.boolean().refine((v) => v === true, {
+    message:
+      "Merci d'accepter l'utilisation de vos informations pour traiter votre demande.",
+  }),
   /** Anti-spam : doit rester vide. */
   company: z.string().max(0).optional().or(z.literal("")),
 });

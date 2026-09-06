@@ -137,6 +137,64 @@
   .cake-float {
     animation: cake-float 7s var(--ease-out-soft) infinite;
   }
+
+  /* Corps de texte des pages légales (pas de plugin typography) */
+  .legal-prose {
+    color: var(--color-cocoa-soft);
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+  .legal-prose h2 {
+    color: var(--color-cocoa);
+    font-size: 1.2rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+  .legal-prose h3 {
+    color: var(--color-cocoa);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.35rem;
+  }
+  .legal-prose p,
+  .legal-prose ul {
+    margin-top: 0.75rem;
+  }
+  .legal-prose ul {
+    list-style: disc;
+    padding-left: 1.35rem;
+  }
+  .legal-prose li {
+    margin-top: 0.35rem;
+  }
+  .legal-prose li::marker {
+    color: var(--color-gold);
+  }
+  .legal-prose strong {
+    color: var(--color-cocoa);
+    font-weight: 600;
+  }
+  .legal-prose a {
+    color: var(--color-gold);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-prose dl {
+    margin-top: 0.75rem;
+  }
+  .legal-prose dt {
+    color: var(--color-cocoa);
+    font-weight: 600;
+    margin-top: 0.9rem;
+  }
+  .legal-prose dd {
+    margin-left: 0;
+  }
 }
 
 @keyframes cake-float {

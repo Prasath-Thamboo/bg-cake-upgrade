@@ -149,9 +149,58 @@ export const site = {
   },
 
   footer: {
-    rights: "All rights reserved",
-    copyright: "© 2025 BG-Cake",
-    termsLabel: "Règles d'utilisation",
-    termsHref: "#",
+    rights: "Tous droits réservés",
+    legalLinks: [
+      { label: "Mentions légales", href: "/mentions-legales" },
+      { label: "Confidentialité", href: "/confidentialite" },
+    ],
+  },
+
+  /**
+   * Identité légale de l'éditeur — utilisée par /mentions-legales et
+   * /confidentialite. Remplace les valeurs [À COMPLÉTER] par les vraies infos.
+   */
+  company: {
+    // Raison sociale d'une société, ou « Prénom NOM » pour un entrepreneur individuel
+    legalName: "[À COMPLÉTER — raison sociale ou Prénom NOM]",
+    // ex. « Entrepreneur individuel (micro-entreprise) », « SASU au capital de 1 000 € »
+    status: "[À COMPLÉTER — forme juridique]",
+    siret: "[À COMPLÉTER — numéro SIRET]",
+    // ex. « FR00 000000000 » ou « TVA non applicable, art. 293 B du CGI »
+    vat: "[À COMPLÉTER — n° TVA intracommunautaire ou mention de franchise]",
+    address: "[À COMPLÉTER — adresse complète du siège]",
+    email: "prasath1@hotmail.fr",
+    phone: "[À COMPLÉTER — téléphone (facultatif)]",
+    // Personne physique responsable du contenu publié
+    publicationDirector: "[À COMPLÉTER — nom du directeur de la publication]",
+    // Pour une activité alimentaire artisanale, l'inscription au Répertoire des Métiers
+    rmRegistration: "[À COMPLÉTER — n° RM / chambre de métiers, le cas échéant]",
+    host: {
+      name: "Netlify, Inc.",
+      address: "512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis",
+      contact: "https://www.netlify.com",
+    },
+    // Sous-traitants qui traitent des données pour le compte de l'éditeur
+    processors: [
+      {
+        name: "Supabase",
+        role: "Hébergement de la base de données et des images",
+        location: "Union européenne",
+      },
+      {
+        name: "Resend",
+        role: "Acheminement des emails de notification",
+        location: "États-Unis (clauses contractuelles types)",
+      },
+      {
+        name: "Netlify",
+        role: "Hébergement du site",
+        location: "États-Unis / UE (clauses contractuelles types)",
+      },
+    ],
+    // Délai de conservation des demandes de contact / devis
+    dataRetention: "3 ans à compter du dernier contact",
+    // Date de dernière révision des pages légales
+    legalUpdatedAt: "6 septembre 2026",
   },
 };

@@ -28,3 +28,12 @@ function resolve(): string {
 }
 
 export const SITE_URL = resolve();
+
+/**
+ * Indexation par les moteurs de recherche.
+ * Désactivée par défaut : tant que le domaine définitif n'est pas branché,
+ * le site ne doit pas être référencé (on évite que l'URL provisoire
+ * *.netlify.app soit indexée puis à désindexer).
+ * Le jour de la mise en ligne publique : NEXT_PUBLIC_ALLOW_INDEXING=true.
+ */
+export const SITE_INDEXABLE = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";

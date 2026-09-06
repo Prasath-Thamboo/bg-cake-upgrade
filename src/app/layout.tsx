@@ -3,7 +3,7 @@ import "./globals.css";
 import { Spectral, Hanken_Grotesk } from "next/font/google";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import { site } from "@/content/site";
-import { SITE_URL } from "@/lib/site-url";
+import { SITE_URL, SITE_INDEXABLE } from "@/lib/site-url";
 
 /* Serif d'affichage — porte l'identité premium (titres, chiffres-clés) */
 const spectral = Spectral({
@@ -58,11 +58,13 @@ export const metadata: Metadata = {
     title: "BG-Cake — Layer cakes haut de gamme",
     description,
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
-  },
+  robots: SITE_INDEXABLE
+    ? {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, "max-image-preview": "large" },
+      }
+    : { index: false, follow: false, nocache: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

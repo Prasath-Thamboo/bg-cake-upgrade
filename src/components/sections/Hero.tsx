@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -18,42 +11,17 @@ import { site } from "@/content/site";
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
 
-  // Deux régimes pour l'animation « déballage » du gâteau :
-  //  - ≥ lg : effet épinglé, piloté au scroll (scrub).
-  //  - < lg : même chorégraphie des strates, jouée une fois à l'entrée à l'écran.
-  // `prefers-reduced-motion` désactive toute animation (accessibilité).
-  const [enhanced, setEnhanced] = useState(false);
+  // L'effet épinglé « déballage » au scroll tourne sur toutes les tailles.
+  // Seul `prefers-reduced-motion` le désactive (héros statique, gâteau assemblé).
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 1024px)");
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => {
-      setReduced(rm.matches);
-      setEnhanced(wide.matches && !rm.matches);
-    };
+    const update = () => setReduced(rm.matches);
     update();
-    wide.addEventListener("change", update);
     rm.addEventListener("change", update);
-    return () => {
-      wide.removeEventListener("change", update);
-      rm.removeEventListener("change", update);
-    };
+    return () => rm.removeEventListener("change", update);
   }, []);
-
-  // Lecture unique de la chorégraphie sur mobile / tablette : les strates
-  // s'écartent puis se reposent quand le gâteau apparaît dans le viewport.
-  const cakeWrapRef = useRef<HTMLDivElement>(null);
-  const cakeInView = useInView(cakeWrapRef, { once: true, amount: 0.4 });
-  const introProgress = useMotionValue(0);
-  useEffect(() => {
-    if (enhanced || reduced || !cakeInView) return;
-    const controls = animate(introProgress, [0, 0.28, 0], {
-      duration: 2.6,
-      ease: "easeInOut",
-      times: [0, 0.42, 1],
-    });
-    return () => controls.stop();
-  }, [enhanced, reduced, cakeInView, introProgress]);
+  const animated = !reduced;
 
   // Progression 0 → 1 calculée à la main depuis le scroll de page.
   const [span, setSpan] = useState({ start: 0, end: 1 });
@@ -67,7 +35,7 @@ export default function Hero() {
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [enhanced]);
+  }, [animated]);
 
   const { scrollY } = useScroll();
   const progress = useTransform(scrollY, (v) => {
@@ -86,19 +54,22 @@ export default function Hero() {
   const cueOpacity = useTransform(progress, [0, 0.06], [1, 0]);
 
   const stage = (
-    <div className="grid w-full items-center gap-12 md:grid-cols-2 md:gap-10">
-      <motion.div style={enhanced ? { y: textY, opacity: textOpacity } : undefined}>
+    <div className="grid w-full items-center gap-8 sm:gap-12 md:grid-cols-2 md:gap-10">
+      <motion.div
+        style={animated ? { y: textY, opacity: textOpacity } : undefined}
+        className="order-2 md:order-1"
+      >
         <Badge>Artisanal • Premium • Sur-mesure</Badge>
 
-        <h1 className="mt-5 text-[2rem] font-semibold leading-[1.08] text-cocoa min-[420px]:text-[2.35rem] sm:text-[2.75rem] md:text-[3.05rem] lg:text-[3.35rem]">
+        <h1 className="mt-4 text-[1.75rem] font-semibold leading-[1.1] text-cocoa min-[420px]:text-[2.15rem] sm:mt-5 sm:text-[2.6rem] md:text-[3.05rem] lg:text-[3.35rem]">
           {site.hero.title}
         </h1>
 
-        <p className="mt-5 max-w-xl text-sm leading-7 text-cocoa-soft">
+        <p className="mt-4 max-w-xl text-sm leading-7 text-cocoa-soft sm:mt-5">
           {site.hero.text}
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
           <a href={site.instagram} target="_blank" rel="noreferrer" className="max-sm:w-full">
             <Button size="lg" type="button" className="w-full sm:w-auto">
               {site.hero.ctaPrimary}
@@ -111,11 +82,11 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="mt-9 grid max-w-xl grid-cols-3 gap-2.5 text-center sm:gap-3">
+        <div className="mt-6 grid max-w-xl grid-cols-3 gap-2.5 text-center sm:mt-9 sm:gap-3">
           {site.hero.highlights.map((h) => (
             <div
               key={h.top}
-              className="rounded-2xl bg-porcelain/50 px-2 py-3 ring-1 ring-gold/15 backdrop-blur sm:px-3 sm:py-4"
+              className="rounded-2xl bg-porcelain/50 px-2 py-2.5 ring-1 ring-gold/15 backdrop-blur sm:px-3 sm:py-4"
             >
               <div className="font-display text-[0.95rem] font-semibold leading-tight text-cocoa sm:text-base">
                 {h.top}
@@ -129,17 +100,12 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        ref={cakeWrapRef}
-        style={enhanced ? { scale: cakeScale, y: cakeY, opacity: cakeOpacity } : undefined}
-        initial={enhanced ? undefined : { opacity: 0, y: 30 }}
-        whileInView={enhanced ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative mx-auto w-full max-w-[19rem] sm:max-w-sm"
+        style={animated ? { scale: cakeScale, y: cakeY, opacity: cakeOpacity } : undefined}
+        className="relative order-1 mx-auto w-full max-w-[13.5rem] min-[420px]:max-w-[15rem] sm:max-w-xs md:order-2 md:max-w-sm"
       >
         <LayerCake
-          progress={enhanced ? progress : reduced ? null : introProgress}
-          gap={enhanced ? 44 : 36}
+          progress={animated ? progress : null}
+          gap={44}
           className="w-full cake-float"
         />
         <p className="eyebrow mt-3 text-center leading-relaxed">
@@ -149,8 +115,8 @@ export default function Hero() {
     </div>
   );
 
-  // Héros statique (mobile / reduced-motion)
-  if (!enhanced) {
+  // Héros statique (prefers-reduced-motion)
+  if (reduced) {
     return (
       <section id="accueil" ref={ref} className="relative">
         <Container className="grid gap-10 pb-14 pt-24 md:min-h-[88svh] md:content-center">
@@ -160,14 +126,14 @@ export default function Hero() {
     );
   }
 
-  // Héros épinglé « déballage » (≥ md)
+  // Héros épinglé « déballage », piloté au scroll — toutes tailles.
   return (
     <section
       id="accueil"
       ref={ref}
-      className="relative -mb-[12vh] h-[160vh] lg:-mb-[16vh] lg:h-[172vh]"
+      className="relative -mb-[10vh] h-[165vh] sm:h-[170vh] lg:-mb-[16vh] lg:h-[172vh]"
     >
-      <div className="sticky top-0 h-svh overflow-hidden">
+      <div className="sticky top-0 overflow-hidden lg:h-svh">
         <motion.div
           aria-hidden
           style={{ y: blobA, opacity: blobOpacity }}
@@ -179,11 +145,13 @@ export default function Hero() {
           className="pointer-events-none absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(201,168,111,0.36)_0%,rgba(201,168,111,0.16)_38%,rgba(201,168,111,0.05)_60%,transparent_80%)] blur-3xl"
         />
 
-        <Container className="flex h-full items-center pb-10 pt-16">{stage}</Container>
+        <Container className="flex min-h-svh items-center pb-16 pt-20 lg:h-full lg:min-h-0 lg:pt-16">
+          {stage}
+        </Container>
 
         <motion.div
           style={{ opacity: cueOpacity }}
-          className="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center gap-2.5 text-cocoa-soft"
+          className="pointer-events-none absolute inset-x-0 bottom-4 flex flex-col items-center gap-2 text-cocoa-soft sm:bottom-6 sm:gap-2.5"
         >
           <span className="text-[0.7rem] font-semibold uppercase tracking-[0.2em]">
             Défiler

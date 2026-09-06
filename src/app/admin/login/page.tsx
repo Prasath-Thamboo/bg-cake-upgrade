@@ -45,6 +45,7 @@ function LoginForm() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          suppressHydrationWarning
           className="mt-2 w-full rounded-2xl bg-porcelain/60 px-4 py-3 text-sm text-cocoa ring-1 ring-cocoa/10 outline-none focus:ring-2 focus:ring-gold/40"
         />
       </label>
@@ -59,6 +60,7 @@ function LoginForm() {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          suppressHydrationWarning
           className="mt-2 w-full rounded-2xl bg-porcelain/60 px-4 py-3 text-sm text-cocoa ring-1 ring-cocoa/10 outline-none focus:ring-2 focus:ring-gold/40"
         />
       </label>

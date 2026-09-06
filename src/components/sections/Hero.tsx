@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import {
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -11,14 +18,19 @@ import { site } from "@/content/site";
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
 
-  // L'effet épinglé « déballage » ne s'active que sur écran ≥ lg et si les
-  // animations ne sont pas réduites. Ailleurs (mobile, tablette, reduced-motion) :
-  // héros statique, gâteau assemblé.
+  // Deux régimes pour l'animation « déballage » du gâteau :
+  //  - ≥ lg : effet épinglé, piloté au scroll (scrub).
+  //  - < lg : même chorégraphie des strates, jouée une fois à l'entrée à l'écran.
+  // `prefers-reduced-motion` désactive toute animation (accessibilité).
   const [enhanced, setEnhanced] = useState(false);
+  const [reduced, setReduced] = useState(false);
   useEffect(() => {
     const wide = window.matchMedia("(min-width: 1024px)");
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setEnhanced(wide.matches && !rm.matches);
+    const update = () => {
+      setReduced(rm.matches);
+      setEnhanced(wide.matches && !rm.matches);
+    };
     update();
     wide.addEventListener("change", update);
     rm.addEventListener("change", update);
@@ -27,6 +39,21 @@ export default function Hero() {
       rm.removeEventListener("change", update);
     };
   }, []);
+
+  // Lecture unique de la chorégraphie sur mobile / tablette : les strates
+  // s'écartent puis se reposent quand le gâteau apparaît dans le viewport.
+  const cakeWrapRef = useRef<HTMLDivElement>(null);
+  const cakeInView = useInView(cakeWrapRef, { once: true, amount: 0.4 });
+  const introProgress = useMotionValue(0);
+  useEffect(() => {
+    if (enhanced || reduced || !cakeInView) return;
+    const controls = animate(introProgress, [0, 0.28, 0], {
+      duration: 2.6,
+      ease: "easeInOut",
+      times: [0, 0.42, 1],
+    });
+    return () => controls.stop();
+  }, [enhanced, reduced, cakeInView, introProgress]);
 
   // Progression 0 → 1 calculée à la main depuis le scroll de page.
   const [span, setSpan] = useState({ start: 0, end: 1 });
@@ -102,12 +129,17 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
+        ref={cakeWrapRef}
         style={enhanced ? { scale: cakeScale, y: cakeY, opacity: cakeOpacity } : undefined}
+        initial={enhanced ? undefined : { opacity: 0, y: 30 }}
+        whileInView={enhanced ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="relative mx-auto w-full max-w-[19rem] sm:max-w-sm"
       >
         <LayerCake
-          progress={enhanced ? progress : null}
-          gap={44}
+          progress={enhanced ? progress : reduced ? null : introProgress}
+          gap={enhanced ? 44 : 36}
           className="w-full cake-float"
         />
         <p className="eyebrow mt-3 text-center leading-relaxed">

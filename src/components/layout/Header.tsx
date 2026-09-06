@@ -1,13 +1,52 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import { site } from "@/content/site";
 
+/**
+ * Les liens du site pointent vers des ancres (#accueil, #contact…).
+ * - Sur l'accueil : ancre simple (<a>), défilement dans la page.
+ * - Ailleurs : on préfixe par "/" et on passe par <Link> pour revenir
+ *   à l'accueil puis défiler jusqu'à la section.
+ */
+function NavLink({
+  href,
+  isHome,
+  onNavigate,
+  className,
+  children,
+}: {
+  href: string;
+  isHome: boolean;
+  onNavigate: () => void;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  if (href.startsWith("#") && isHome) {
+    return (
+      <a href={href} onClick={onNavigate} className={className}>
+        {children}
+      </a>
+    );
+  }
+  const target = href.startsWith("#") ? `/${href}` : href;
+  return (
+    <Link href={target} onClick={onNavigate} className={className}>
+      {children}
+    </Link>
+  );
+}
+
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const closeMenu = () => setOpen(false);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -25,8 +64,8 @@ export default function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-gold/15 bg-porcelain/70 backdrop-blur">
       <Container className="flex h-16 items-center justify-between gap-4">
-        <a
-          href="#accueil"
+        <Link
+          href="/"
           onClick={() => setOpen(false)}
           className="flex shrink-0 items-center gap-3"
         >
@@ -46,29 +85,31 @@ export default function Header() {
               {site.tagline}
             </div>
           </div>
-        </a>
+        </Link>
 
         <nav className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {site.nav.map((item) => (
               <li key={item.href}>
-                <a
+                <NavLink
                   href={item.href}
+                  isHome={isHome}
+                  onNavigate={closeMenu}
                   className="rounded-xl px-3 py-2 text-sm font-semibold text-cocoa/75 transition-colors hover:bg-cocoa/5 hover:text-cocoa"
                 >
                   {item.label}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
         </nav>
 
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
-          <a href="#contact">
+          <NavLink href="#contact" isHome={isHome} onNavigate={closeMenu}>
             <Button variant="outline" size="sm" type="button">
               Devis
             </Button>
-          </a>
+          </NavLink>
           <a href={site.instagram} target="_blank" rel="noreferrer">
             <Button size="sm" type="button">
               Réserver
@@ -116,23 +157,24 @@ export default function Header() {
               <ul className="flex flex-col gap-2">
                 {site.nav.map((item) => (
                   <li key={item.href}>
-                    <a
+                    <NavLink
                       href={item.href}
-                      onClick={() => setOpen(false)}
+                      isHome={isHome}
+                      onNavigate={closeMenu}
                       className="block rounded-2xl px-4 py-3 font-semibold text-cocoa hover:bg-cocoa/5"
                     >
                       {item.label}
-                    </a>
+                    </NavLink>
                   </li>
                 ))}
               </ul>
 
               <div className="mt-5 grid gap-3">
-                <a href="#contact" onClick={() => setOpen(false)}>
+                <NavLink href="#contact" isHome={isHome} onNavigate={closeMenu}>
                   <Button variant="outline" className="w-full" type="button">
                     Demander un devis
                   </Button>
-                </a>
+                </NavLink>
                 <a
                   href={site.instagram}
                   target="_blank"

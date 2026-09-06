@@ -135,7 +135,8 @@
 
   /* Respiration lente du gâteau au repos */
   .cake-float {
-    animation: cake-float 7s var(--ease-out-soft) infinite;
+    animation: cake-float 6s var(--ease-out-soft) infinite;
+    will-change: transform;
   }
 
   /* Corps de texte des pages légales (pas de plugin typography) */
@@ -200,10 +201,10 @@
 @keyframes cake-float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(0deg);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-12px) rotate(-0.6deg);
   }
 }
 

@@ -155,6 +155,7 @@ export default function Contact() {
                         type="text"
                         autoComplete="name"
                         className={fieldCls}
+                        suppressHydrationWarning
                         {...register("name")}
                       />
                     </Field>
@@ -165,6 +166,7 @@ export default function Contact() {
                           type="email"
                           autoComplete="email"
                           className={fieldCls}
+                          suppressHydrationWarning
                           {...register("email")}
                         />
                       </Field>
@@ -173,6 +175,7 @@ export default function Contact() {
                           type="tel"
                           autoComplete="tel"
                           className={fieldCls}
+                          suppressHydrationWarning
                           {...register("phone")}
                         />
                       </Field>
@@ -180,13 +183,19 @@ export default function Contact() {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Date de l'événement" hint="Optionnel">
-                        <input type="date" className={fieldCls} {...register("eventDate")} />
+                        <input
+                          type="date"
+                          className={fieldCls}
+                          suppressHydrationWarning
+                          {...register("eventDate")}
+                        />
                       </Field>
                       <Field label="Nombre de parts" hint="Optionnel">
                         <input
                           type="text"
                           placeholder="ex. 12–15"
                           className={fieldCls}
+                          suppressHydrationWarning
                           {...register("servings")}
                         />
                       </Field>
@@ -197,6 +206,7 @@ export default function Contact() {
                         rows={5}
                         placeholder="Goûts, style, thème, inspiration…"
                         className={`${fieldCls} resize-y`}
+                        suppressHydrationWarning
                         {...register("message")}
                       />
                     </Field>

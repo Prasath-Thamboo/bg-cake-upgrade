@@ -54,39 +54,39 @@ export default function Hero() {
   const cueOpacity = useTransform(progress, [0, 0.06], [1, 0]);
 
   const stage = (
-    <div className="grid w-full items-center gap-8 sm:gap-12 md:grid-cols-2 md:gap-10">
+    <div className="grid w-full items-center gap-4 sm:gap-8 md:grid-cols-2 md:gap-10">
       <motion.div
         style={animated ? { y: textY, opacity: textOpacity } : undefined}
         className="order-2 md:order-1"
       >
         <Badge>Artisanal • Premium • Sur-mesure</Badge>
 
-        <h1 className="mt-4 text-[1.75rem] font-semibold leading-[1.1] text-cocoa min-[420px]:text-[2.15rem] sm:mt-5 sm:text-[2.6rem] md:text-[3.05rem] lg:text-[3.35rem]">
+        <h1 className="mt-3 text-[1.6rem] font-semibold leading-[1.1] text-cocoa min-[420px]:text-[1.9rem] sm:mt-4 sm:text-[2.4rem] md:text-[min(2.8rem,5.6svh)] lg:text-[min(3.2rem,6.2svh)]">
           {site.hero.title}
         </h1>
 
-        <p className="mt-4 max-w-xl text-sm leading-7 text-cocoa-soft sm:mt-5">
+        <p className="mt-3 line-clamp-3 max-w-xl text-sm leading-6 text-cocoa-soft sm:mt-4 sm:line-clamp-none sm:leading-7 [@media(max-height:620px)]:hidden">
           {site.hero.text}
         </p>
 
-        <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
-          <a href={site.instagram} target="_blank" rel="noreferrer" className="max-sm:w-full">
-            <Button size="lg" type="button" className="w-full sm:w-auto">
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6 sm:flex sm:flex-wrap">
+          <a href={site.instagram} target="_blank" rel="noreferrer">
+            <Button size="lg" type="button" className="w-full max-sm:h-12 max-sm:px-3 sm:w-auto">
               {site.hero.ctaPrimary}
             </Button>
           </a>
-          <a href="#creations" className="max-sm:w-full">
-            <Button size="lg" variant="outline" type="button" className="w-full sm:w-auto">
+          <a href="#creations">
+            <Button size="lg" variant="outline" type="button" className="w-full max-sm:h-12 max-sm:px-3 sm:w-auto">
               {site.hero.ctaSecondary}
             </Button>
           </a>
         </div>
 
-        <div className="mt-6 grid max-w-xl grid-cols-3 gap-2.5 text-center sm:mt-9 sm:gap-3">
+        <div className="mt-4 grid max-w-xl grid-cols-3 gap-2.5 text-center sm:mt-7 sm:gap-3">
           {site.hero.highlights.map((h) => (
             <div
               key={h.top}
-              className="rounded-2xl bg-porcelain/50 px-2 py-2.5 ring-1 ring-gold/15 backdrop-blur sm:px-3 sm:py-4"
+              className="rounded-2xl bg-porcelain/50 px-2 py-2 ring-1 ring-gold/15 backdrop-blur sm:px-3 sm:py-3.5"
             >
               <div className="font-display text-[0.95rem] font-semibold leading-tight text-cocoa sm:text-base">
                 {h.top}
@@ -101,14 +101,14 @@ export default function Hero() {
 
       <motion.div
         style={animated ? { scale: cakeScale, y: cakeY, opacity: cakeOpacity } : undefined}
-        className="relative order-1 mx-auto w-full max-w-[13.5rem] min-[420px]:max-w-[15rem] sm:max-w-xs md:order-2 md:max-w-sm"
+        className="relative order-1 mx-auto w-full max-w-[min(15rem,19svh)] sm:max-w-[min(20rem,24svh)] md:order-2 md:max-w-[min(24rem,50svh)]"
       >
         <LayerCake
           progress={animated ? progress : null}
           gap={44}
           className="w-full cake-float"
         />
-        <p className="eyebrow mt-3 text-center leading-relaxed">
+        <p className="eyebrow mt-3 hidden text-center leading-relaxed md:block">
           Composition signature — génoise, crème, framboise
         </p>
       </motion.div>
@@ -119,7 +119,7 @@ export default function Hero() {
   if (reduced) {
     return (
       <section id="accueil" ref={ref} className="relative">
-        <Container className="grid gap-10 pb-14 pt-24 md:min-h-[88svh] md:content-center">
+        <Container className="grid min-h-svh content-center gap-10 pb-14 pt-24">
           {stage}
         </Container>
       </section>
@@ -133,7 +133,7 @@ export default function Hero() {
       ref={ref}
       className="relative -mb-[10vh] h-[165vh] sm:h-[170vh] lg:-mb-[16vh] lg:h-[172vh]"
     >
-      <div className="sticky top-0 overflow-hidden lg:h-svh">
+      <div className="sticky top-0 h-svh overflow-hidden">
         <motion.div
           aria-hidden
           style={{ y: blobA, opacity: blobOpacity }}
@@ -145,7 +145,7 @@ export default function Hero() {
           className="pointer-events-none absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(201,168,111,0.36)_0%,rgba(201,168,111,0.16)_38%,rgba(201,168,111,0.05)_60%,transparent_80%)] blur-3xl"
         />
 
-        <Container className="flex min-h-svh items-center pb-16 pt-20 lg:h-full lg:min-h-0 lg:pt-16">
+        <Container className="flex h-full [align-items:safe_center] pb-16 pt-20 sm:pb-20 sm:pt-24">
           {stage}
         </Container>
 

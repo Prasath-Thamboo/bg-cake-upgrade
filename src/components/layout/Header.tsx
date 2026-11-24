@@ -48,6 +48,16 @@ export default function Header() {
   const isHome = pathname === "/";
   const closeMenu = () => setOpen(false);
 
+  // En haut de page : header transparent (simple flou) ; au scroll : fond givré.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  const solid = scrolled || open;
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKeyDown);
@@ -62,7 +72,13 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-gold/15 bg-porcelain/70 backdrop-blur">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-300 ${
+        solid
+          ? "border-gold/15 bg-porcelain/75 shadow-[0_6px_24px_-18px_rgba(60,40,20,0.35)]"
+          : "border-transparent bg-porcelain/10"
+      }`}
+    >
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link
           href="/"

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vidéo de présentation (pages de rendu, hors application)
+    "bg-cake-film/**",
   ]),
 ]);
 

@@ -43,7 +43,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: site.brand }],
   creator: site.brand,
-  icons: { icon: "/image/logo.png", apple: "/image/logo.png" },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",

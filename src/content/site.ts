@@ -32,32 +32,6 @@ export const site = {
     title: "Explorez nos gâteaux",
     desc:
       "Des saveurs équilibrées, des finitions soignées, et une esthétique premium pour sublimer vos événements.",
-    items: [
-      {
-        img: "/image/passion.jpg",
-        title: "Coco & fruit de la passion",
-        desc: "Crème de coco • coulis passion • finition signature",
-        tag: "Fruité",
-      },
-      {
-        img: "/image/fram.jpg",
-        title: "Framboise & chocolat blanc",
-        desc: "Chocolat blanc • framboise • texture aérienne",
-        tag: "Gourmand",
-      },
-      {
-        img: "/image/vanille.jpg",
-        title: "Vanille & pécan",
-        desc: "Vanille • noix de pécan • équilibre délicat",
-        tag: "Signature",
-      },
-      {
-        img: "/image/chocolat.jpg",
-        title: "Tout chocolat",
-        desc: "Ganache • crème chocolat • intensité",
-        tag: "Intense",
-      },
-    ],
   },
 
   pricing: {

@@ -240,3 +240,38 @@ html.lenis body {
 .lenis.lenis-stopped {
   overflow: clip;
 }
+
+/* Galerie : zoom lent « Ken Burns » sur chaque photo du diaporama */
+.ken-burns {
+  animation: ken-burns 9s ease-out forwards;
+  transform-origin: 60% 40%;
+}
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* Galerie : rubans de photos qui défilent en boucle */
+.marquee-track {
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}

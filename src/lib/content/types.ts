@@ -1,3 +1,10 @@
+export type GalleryMedia = {
+  type: "image" | "video";
+  src: string;
+  /** image affichée avant le lancement d'une vidéo */
+  poster?: string;
+};
+
 export type GalleryItem = {
   id: string;
   title: string;
@@ -12,7 +19,10 @@ export type GalleryItem = {
   complexity: string | null;
   /** query string du configurateur pour « réutiliser ce design » */
   configQuery: string | null;
+  /** image de couverture */
   imageUrl: string;
+  /** toutes les photos et vidéos du gâteau, dans l'ordre d'affichage */
+  media: GalleryMedia[];
   published: boolean;
   sortOrder: number;
 };

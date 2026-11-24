@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Reveal from "@/components/motion/Reveal";
+import CakeCard from "./CakeCard";
 import Lightbox from "./Lightbox";
 import type { GalleryItem } from "@/lib/content/types";
 
@@ -121,47 +122,15 @@ export default function GalleryBrowser({ items }: { items: GalleryItem[] }) {
 
       {filtered.length === 0 ? (
         <div className="card mt-4 p-10 text-center text-sm text-cocoa-soft">
-          Aucune création ne correspond à ces filtres.
+          {items.length === 0
+            ? "Nos réalisations arrivent très bientôt."
+            : "Aucune création ne correspond à ces filtres."}
         </div>
       ) : (
-        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((item, i) => (
-            <Reveal key={item.id} delay={(i % 3) * 0.06}>
-              <button
-                type="button"
-                onClick={() => setLightbox(i)}
-                className="group block h-full w-full overflow-hidden card text-left"
-              >
-                <div className="relative aspect-[4/5] overflow-hidden bg-cream">
-                  {item.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-                  ) : null}
-                  {item.tag ? (
-                    <span className="absolute left-4 top-4 rounded-full bg-porcelain/70 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-cocoa ring-1 ring-gold/20 backdrop-blur">
-                      {item.tag}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="p-5">
-                  <h3 className="font-sans text-base font-bold text-cocoa">
-                    {item.title}
-                  </h3>
-                  {item.description ? (
-                    <p className="mt-2 line-clamp-2 text-sm text-cocoa-soft">
-                      {item.description}
-                    </p>
-                  ) : null}
-                  <span className="mt-4 inline-block text-xs font-semibold text-gold">
-                    Voir le détail →
-                  </span>
-                </div>
-              </button>
+            <Reveal key={item.id} delay={(i % 3) * 0.08} y={40}>
+              <CakeCard item={item} index={i} onOpen={() => setLightbox(i)} />
             </Reveal>
           ))}
         </div>

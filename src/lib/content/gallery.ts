@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { site } from "@/content/site";
+import { getLocalCakes } from "./localCakes";
 import type { GalleryItem } from "./types";
 
 type Row = {
@@ -29,31 +29,20 @@ export function rowToGalleryItem(r: Row): GalleryItem {
     complexity: r.complexity,
     configQuery: r.config_query,
     imageUrl: r.image_url ?? "",
+    media: r.image_url ? [{ type: "image", src: r.image_url }] : [],
     published: r.published,
     sortOrder: r.sort_order ?? 0,
   };
 }
 
-/** Repli statique tant que Supabase n'est pas branché. */
-function fallbackItems(): GalleryItem[] {
-  return site.creations.items.map((it, i) => ({
-    id: `static-${i}`,
-    title: it.title,
-    description: it.desc,
-    tag: it.tag,
-    flavors: [],
-    occasion: null,
-    complexity: null,
-    configQuery: null,
-    imageUrl: it.img,
-    published: true,
-    sortOrder: i,
-  }));
-}
-
-/** Créations publiées, pour le site public. */
+/**
+ * Créations publiées, pour le site public :
+ * d'abord les gâteaux du dossier public/image/gateaux/,
+ * puis ceux ajoutés depuis l'admin (Supabase), s'il est branché.
+ */
 export async function getGalleryItems(): Promise<GalleryItem[]> {
-  if (!isSupabaseConfigured) return fallbackItems();
+  const local = await getLocalCakes();
+  if (!isSupabaseConfigured) return local;
 
   const supabase = createSupabasePublicClient();
   const { data, error } = await supabase
@@ -63,8 +52,8 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
 
-  if (error || !data || data.length === 0) return fallbackItems();
-  return (data as Row[]).map(rowToGalleryItem);
+  if (error || !data) return local;
+  return [...local, ...(data as Row[]).map(rowToGalleryItem)];
 }
 
 /** Toutes les créations (admin). */
